@@ -21,7 +21,7 @@ Various modifications have been made to the program throughout this project, eac
 ## Installation
 Initial installation steps are as follows:
 
-1. Clone this repository to your local device. Install the required libraries and packages via pip via `pip3 install -r requirements.txt.`
+1. Clone this repository to your local device. Install the required libraries and packages via pip via `pip install -r requirements.txt.`
 
 * Note that compared with the original co-adaptation repository, the requirement list has been modified due to compatibility issues with the newer version of certain packages.
 
@@ -33,7 +33,7 @@ Initial installation steps are as follows:
 
 * If you don't have or don't want to use GPU, install the CPU version of the package.
 
-5. Install GYM v0.21.0; DO NOT install GYM using PIP INSTALL; The new interface is not compatible with it. Instead, install GYM using the following command: `pip3 install gym==0.21.0`
+5. Install GYM v0.21.0; DO NOT install GYM using `pip install`; The new interface is not compatible with it. Instead, install GYM using the following command: `pip install gym==0.21.0`
 
 
 ## Setting up the environment
