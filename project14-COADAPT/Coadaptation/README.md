@@ -33,7 +33,7 @@ Initial installation steps are as follows:
 
 * If you don't have or don't want to use GPU, install the CPU version of the package.
 
-5. Install GYM v0.21.0; DO NOT install GYM using `pip install`; The new interface is not compatible with it. Instead, install GYM using the following command: `pip install gym==0.21.0`
+5. Install GYM v0.21.0; DO NOT install GYM using `pip install`; The new interface is not compatible with the program. Instead, install GYM using the following command: `pip install gym==0.21.0`
 
 
 ## Setting up the environment
