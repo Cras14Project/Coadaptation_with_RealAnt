@@ -120,7 +120,7 @@ There are two possible solutions to this,
 2. Change the all `np.bool` to `bool` in the file `core.py` in the folder `rlkit/rlkit/torch/`.
 
 ## WSL2
-During the project, WSL2 was used to work on the program files due to being unable to access the native Ubundu operation environment—both regular installations of Ubuntu 20.04 LTS and Ubuntu 22.04.2 LTS versions on WSL2. If you want to run a visual simulation with Ubuntu 22.04.2 LTS version, follow this [guide](https://www.youtube.com/watch?v=7Sym3uL6YWo&t=371s). Visualization on Ubuntu 20.04 LTS can be done by following this [guide](https://github.com/davidbombal/wsl2/blob/main/ubuntu_gui_youtube).
+During the project, WSL2 was used to work on the program files due to being unable to access the native Ubundu operation environment—both regular installations of Ubuntu 20.04 LTS and Ubuntu 22.04.2 LTS versions on WSL2. If you want to run a visual simulation with Ubuntu 22.04.2 LTS version, follow this [guide](https://www.youtube.com/watch?v=7Sym3uL6YWo&t). Visualization on Ubuntu 20.04 LTS can be done by following this [guide](https://github.com/davidbombal/wsl2/blob/main/ubuntu_gui_youtube).
 
 ## Other features
 Functions not labeled with `CRAS14` in the program are from the original version of the program; refer to the original [repository](https://github.com/ksluck/Coadaptation).
