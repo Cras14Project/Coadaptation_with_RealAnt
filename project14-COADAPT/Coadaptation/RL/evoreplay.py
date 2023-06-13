@@ -1,0 +1,137 @@
+from rlkit.data_management.replay_buffer import ReplayBuffer
+from rlkit.data_management.env_replay_buffer import EnvReplayBuffer
+import numpy as np
+
+class EvoReplayLocalGlobalStart(ReplayBuffer):
+    # line 7-18, basically the init paramaters need to be save and store e.g. attept to pickle them
+    def __init__(self, env, max_replay_buffer_size_species, max_replay_buffer_size_population):
+        self._species_buffer = EnvReplayBuffer(env=env, max_replay_buffer_size=max_replay_buffer_size_species)
+        self._population_buffer = EnvReplayBuffer(env=env, max_replay_buffer_size=max_replay_buffer_size_population)
+        self._init_state_buffer = EnvReplayBuffer(env=env, max_replay_buffer_size=max_replay_buffer_size_population)
+        
+        self._env = env
+        self._max_replay_buffer_size_species = max_replay_buffer_size_species
+        self._mode = "species"
+        self._ep_counter = 0
+        self._expect_init_state = True
+        print("Use EvoReplayLocalGlobalStart replay buffer")
+
+    def add_sample(self, observation, action, reward, next_observation,
+                   terminal, **kwargs):
+        """
+        Add a transition tuple.
+        """
+        if True or self._mode == "species": # This is deactivated now
+            self._species_buffer.add_sample(observation=observation, action=action, reward=reward, next_observation=next_observation,
+                           terminal=terminal, env_info={}, **kwargs)
+            if self._expect_init_state:
+                self._init_state_buffer.add_sample(observation=observation, action=action, reward=reward, next_observation=next_observation,
+                               terminal=terminal, env_info={}, **kwargs)
+                self._init_state_buffer.terminate_episode()
+                self._expect_init_state = False
+
+            if self._ep_counter >= 0:
+                self._population_buffer.add_sample(observation=observation, action=action, reward=reward, next_observation=next_observation,
+                           terminal=terminal, env_info={}, **kwargs)
+
+    def terminate_episode(self):
+        """
+        Let the replay buffer know that the episode has terminated in case some
+        special book-keeping has to happen.
+        :return:
+        """
+        if self._mode == "species":
+            self._species_buffer.terminate_episode()
+            self._population_buffer.terminate_episode()
+            self._ep_counter += 1
+            self._expect_init_state = True
+
+    def num_steps_can_sample(self, **kwargs):
+        """
+        :return: # of unique items that can be sampled.
+        """
+        if self._mode == "species":
+            return self._species_buffer.num_steps_can_sample(**kwargs)
+        elif  self._mode == "population":
+            return self._population_buffer.num_steps_can_sample(**kwargs)
+        else:
+            pass
+
+    def random_batch(self, batch_size):
+        """
+        Return a batch of size `batch_size`.
+        :param batch_size:
+        :return:
+        """
+        if self._mode == "species":
+            # return self._species_buffer.random_batch(batch_size)
+            species_batch_size = int(np.floor(batch_size * 0.9))
+            pop_batch_size = int(np.ceil(batch_size * 0.1))
+            pop = self._population_buffer.random_batch(pop_batch_size)
+            spec = self._species_buffer.random_batch(species_batch_size)
+            for key, item in pop.items():
+                pop[key] = np.concatenate([pop[key], spec[key]], axis=0)
+            return pop
+        elif self._mode == "population":
+            return self._population_buffer.random_batch(batch_size)
+        elif self._mode == "start":
+            return self._init_state_buffer.random_batch(batch_size)
+        else:
+            pass
+
+    def set_mode(self, mode):
+        if mode == "species":
+            self._mode = mode
+        elif mode == "population":
+            self._mode = mode
+        elif mode == "start":
+            self._mode = mode
+        else:
+            print("No known mode :(")
+
+    def reset_species_buffer(self):
+        self._species_buffer = EnvReplayBuffer(env = self._env, max_replay_buffer_size=self._max_replay_buffer_size_species)
+        self._ep_counter = 0
+    
+    # CRAS14
+    # Creates a dictionary of the init parameters and returns it
+    def get_init_params(self):
+        short_list = []
+        large_list = []
+        # save_dict_large = {}
+        # save_dict['species_buffer'] = self._species_buffer
+        # save_dict['population_buffer'] = self._population_buffer
+        # save_dict['init_state_buffer'] = self._init_state_buffer
+        #save_dict['env'] = self._env
+
+        # CRAS14: evoplay values stored in short_list, rest in large_list to be saved in a separate file
+        large_list.append(self._species_buffer.get_snapshot())
+        large_list.append(self._population_buffer.get_snapshot())
+        large_list.append(self._init_state_buffer.get_snapshot())
+
+        short_list.append(self._max_replay_buffer_size_species)
+        short_list.append(self._mode)
+        short_list.append(self._ep_counter)
+        short_list.append(self._expect_init_state)
+    
+        return short_list, large_list
+    
+    # CRAS14
+    # Sets the init parameters to the values in the dictionary
+    def set_init_params(self, short_list, large_list):
+        #self._species_buffer = save_dict['species_buffer']
+        #self._population_buffer = save_dict['population_buffer']
+        #self._init_state_buffer = save_dict['init_state_buffer']
+        #self._env = save_dict['env']
+
+        # CRAS14: List of values to be restored from the large_list
+        self._species_buffer.restore_from_snapshot(large_list[0])
+        self._population_buffer.restore_from_snapshot(large_list[1])
+        self._init_state_buffer.restore_from_snapshot(large_list[2])
+
+        # CRAS14: List of values to be restored from the short_list
+        self._max_replay_buffer_size_species = int(short_list[0])
+        self._mode = short_list[1]
+        self._ep_counter = int(short_list[2])
+        self._expect_init_state = short_list[3]
+
