@@ -65,7 +65,7 @@ as subdirectories.
 
 Ensure the `evoreplay_saves` directory and its subdirectories exist within the `Coadaptation` directory for the saving and loading function to work.
 
-When the program asks for a previous network path, enter the network path you want to load.
+When the program asks for a previous network path, enter the path of the network file you want to load.
 
 ## Running the program
 The original implementation of the co-adaptation program will automatically create directories that store performance and achieve rewards. For more information about this, refer to the original program repository in the section [Data logging](https://github.com/eicio/CRAS-14-Final/tree/coadapt-save-load-all/project14-COADAPT/Coadaptation#data-logging)
