@@ -23,7 +23,7 @@ Initial installation steps are as follows:
 
 1. Clone this repository to your local device. Install the required libraries and packades via pip via `pip3 install -r requirements.txt.`
 
-* Note that compared with the original co-adapt repository, the requirement list has been modified due to compatibility issues with the newer version of certain packages.
+* Note that compared with the original co-adaptation repository, the requirement list has been modified due to compatibility issues with the newer version of certain packages.
 
 2. Install Anaconda, any version should be fine.
 
