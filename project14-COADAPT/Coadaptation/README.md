@@ -1,97 +1,126 @@
-# Fast Evolution through Actor-Critic Reinforcement Learning
-This is the official repository providing a refactored implementation of the data-driven
-design optimization method presented in the paper [**Data-efficient Co-Adaptation of Morphology and Behaviour with Deep Reinforcement Learning**](https://research.fb.com/publications/data-efficient-co-adaptation-of-morphology-and-behaviour-with-deep-reinforcement-learning/).
-This paper was presented on the Conference on Robot Learning in 2019.
-The website for this project can be found [here](https://sites.google.com/view/drl-coadaptation/home).
+# Introduction
 
-At the moment, the repository contains a basic implementation of the proposed algorithm and its baseline. We use particle swarm optimization on the Q-function, which is used as a surrogate function predicting the performance of design candidates and, thus, avoiding the necessity to simulate/evaluate design candidates. The baseline uses also particle swarm optimization but evaluates design candidates in simulation instead.
+This documentation presents the modifications made to a program based on the co-adaptation program described in a paper presented at the [Conference on Robot Learning in 2019](https://sites.google.com/view/drl-coadaptation/home). The document explores the changes implemented and discusses how the program operates with the new modifications. It also includes the installation process, and highlights encountered errors during the project work. We want to acknowledge one of the original co-adaptation program's authors. 
 
-The current environment provided is Half-Cheetah, using pybullet, for which we have to learn effective movement strategies and the optimal leg lengths, maximizing the performance of the agent.
+## Acknowledgements
+We thank the instructor, Kevin Sebastian Luck, for his guidance and permission to utilize their team's work.
+The co-adaptation program extensively uses rlkit, a framework developed and maintained by Vitchyr Pong, and the original can be found [here](https://github.com/rail-berkeley/rlkit). We have also made small modifications to rlkit due to Numpy compatibility, which is also in this repository.
 
-Additional methods and environments which are shown in the paper will be added over time and the structure of the repository might change in the future.
+## Co-Adaptation of Morphology and Behaviour
+One of the prominent features of the quadruped robot is the integration of Co-Adaptation of Morphology and Behaviour with Deep Reinforcement Learning. This approach combines the state-of-the-art Soft-Actor-Critic (SAC) algorithm with the Optimization Algorithm Particle Swarm Optimization (PSO) to enable the co-adaptation of the robot's morphology and behavior through deep reinforcement learning.
 
-## Citation
-If you use this code in your research, please cite
-```
-@inproceedings{luck2019coadapt,
-  title={Data-efficient Co-Adaptation of Morphology and Behaviour with Deep Reinforcement Learning},
-  author={Luck, Kevin Sebastian and Ben Amor, Heni and Calandra, Roberto},
-  booktitle={Conference on Robot Learning},
-  year={2019}
-}
-```
+## Pausing Method
+We have implemented a pausing method in the program to enhance flexibility and control during adaptation. After each iteration, the program can be paused, allowing the option to terminate the program and save the current state or skip a part of the adaptation process. This feature proves particularly useful when there is a need to train the robot solely for walking, enabling the skipping of certain processes such as design optimization.
 
-## Acknowledgements of Previous Work
-This project would have been harder to implement without the great work of
-the developers behind rlkit and pybullet.
+## Saving Method
+A saving method has been incorporated into the program to facilitate continuity and accommodate changes to the robot's parts. This method enables the program to save its current state, ensuring that progress is not lost when modifications are made. By saving the program's state, users can resume where they left off, even after altering the robot's components. During program initialization, users are prompted to decide whether to load previous data, including reinforcement learning data and other information saved from the last program run. This flexibility allows for fresh runs of the program when required.
 
-The reinforcement learning loop makes extensive use of rlkit, a framework developed
-and maintained by Vitchyr Pong. You find this repository [here](https://github.com/vitchyr/rlkit).
-We made slight adaptations to the Soft-Actor-Critic algorithm used in this repository.
-
-Tasks were simulated in [PyBullet](https://pybullet.org/wordpress/), the
-repository can be found [here](https://github.com/bulletphysics/bullet3/tree/master/examples/pybullet).
-Adaptations were made to the files found in pybullet_evo to enable the dynamic adaptation
-of design parameters during the training process.
+## Modifications and Memo Labels
+Throughout this project, various modifications have been made to the program, each labeled `CRAS14`. These modifications range from improvements to core functionality to adjustments to address specific requirements. It is important to note that some modifications are marked as `memos` with `CRAS14`, indicating that they serve as internal notes for reference and clarification purposes.
 
 ## Installation
+Initial installation steps are as follows:
 
-Make sure that PyTorch is installed. You find more information here: https://pytorch.org/
+1. Clone this repository to your local device. Install the required libraries and packades via pip via `pip3 install -r requirements.txt.`
 
-First, clone this repository to your local computer as usual.
-Then, install the required packages via pip by executing `pip3 install -r requirements.txt`.
+* Note that compared with the original co-adapt repository, the requirement list has been modified due to compatibility issues with the newer version of certain packages.
 
-The current version of Coadapt is using now the latest version of rlkit by  [Vitchyr Pong](https://github.com/vitchyr/rlkit).
+2. Install Anaconda, any version should be fine.
 
-Clone the rlkit with
-```bash
-git clone https://github.com/vitchyr/rlkit.git
-```
-Now, set in your terminal the environment variable PYTHONPATH with
-```bash
-export PYTHONPATH=/path/to/rlkit/
-```
-where the folder `/path/to/rlkit` contains the folder `rlkit`. This enables us
-to import rlkit with `import rlkit`.
-Alternatively, follow the installations guidelines you can find in the rlkit repository.
+3. Install Mujoco, through [this](https://www.youtube.com/watch?v=Wnb_fiStFb8) instruction, which has a written step-by-step guide in the description if you want to run co-adaptation in a simulation. Install mujoco-py regularly.
 
-You may have to set the environmental variable every time you open a new terminal.
+4. Within conda environment install PyTorch.
 
-## Starting experiments
+* If you don't have or don't want to use GPU available, install the CPU version of the package.
 
-After setting the environmental variable and installing the packages you can
-proceed to run the experiments.
-There are two experimental configurations already set up for you in `experiment_configs.py`.
-You can execute them with
-```bash
-python3 main.py sac_pso_batch
-```
-and
-```bash
-python3 main.py sac_pso_sim
-```
+5. Install GYM v0.21.0; DO NOT install GYM using PIP INSTALL; The new interface is not compatible with. Instead, install GYM using the following command: `pip3 install gym==0.21.0`
 
-You may change the configs or add new ones. Make sure to add new configurations to
-the `config_dict` in `experiment_configs.py`.
 
-## Data logging
-If you execute these commands, they will automatically create directories in which
-the performance and achieved rewards will be stored. Each experiment creates
-a specific folder with the current date/time and a random string as name.
-You can find in this folder a copy of the config you executed and one csv file
-for each design on which the reinforcement learning algorithm was executed.
-Each csv file contains three rows: The type of the design (either 'Initial', 'Optimized' or 'Random');
-The design vector; And the subsequent, cumulative rewards for each episode/trial.
+## Setting up the environment
+Set `PYTHONPATH` with 
 
-The file `ADDVIZFILE` provieds a basic jupyter notebook to visualize the collected
-data.
 
-## Changelog
- - 20 July 2022:
-   - Fixed an issue where the species/individual replay buffer was never reset.
- - 9 August 2020:
-   - We use now the current version of rlkit. Alpha parameter can now be set via the experiment_config file.
- - 19 June 2020:
-    - Updated the repository to use the current version of rlkit. However, we cannot set our own alpha parameter for SAC, so it might come with some initial performance decrease.
-    - Added a basic Video recorder which retains the best 5 episodes recorded
-    - Fixed a bug which was introduced when refactoring the code
+    export PYTHONPATH=/path/to/rlkit/
+
+where the folder `/path/to/rlkit` contains the folder `rlkit`. This enables us to import rlkit with `import rlkit`. You may need to set the `PYTHONPATH` every time after launching a new terminal.
+
+## Running the program
+After the setup, run either two available configurations in `experiment_configs.py` by running either of the commands:
+
+    python3 main.py sac_pso_batch
+
+or 
+
+    python3 main.py sac_pso_sim # Simulation version
+
+You can change co-adaptation parameters from the `experiment_configs.py`. 
+
+The program saves and load all evoreplay data to a directory `named evoreplay_saves` that has 
+* `init_state`
+* `population`
+* `short_save`
+* `species directories`
+
+as subdirectories.
+
+Ensure the `evoreplay_saves` directory and its subdirectories exist within the `Coadaptation` directory for the saving and loading function to work.
+
+When the program asks for a previous network path, enter the network path you want to load.
+
+## Running the program
+The original implementation of the co-adaptation program will automatically create directories that store performance and achieve rewards. For more information about this, refer to the original program repository in the section [Data logging](https://github.com/eicio/CRAS-14-Final/tree/coadapt-save-load-all/project14-COADAPT/Coadaptation#data-logging)
+
+## Known errors and solutions
+If you encounter the following error when trying to create a new environment in Anaconda:
+
+    LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored
+
+A possible solution to resolve the error:
+
+    apt-get install glib2.0
+    sudo apt-get install glib2.0
+You can also try:
+
+    pip install -e . --no-cache
+
+which didn't affect the outcome. You can also try to follow the instructions [here](https://askubuntu.com/questions/1054508/how-to-set-so-to-be-available-for-ld-preload) to resolve the error.
+
+
+
+If encountering the following error:
+
+    ImportError: ...anaconda3/envs/mujoco_py/bin/../lib/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by /lib/x86_64-linux-gnu/libLLVM-15.so.1)
+
+Try the following:
+
+    conda install -c conda-forge gcc=12.1.0
+
+It may take a minute to complete. The original [solution](https://stackoverflow.com/questions/72540359/glibcxx-3-4-30-not-found-for-librosa-in-conda-virtual-environment-after-tryin).
+
+If receive the following error:
+
+    E: Couldn't find any package by glob 'libglew1.13'
+
+    E: Couldn't find any package by regex 'libglew1.13'
+Solution that worked was found [here](https://otland.net/threads/debian-installing-library-to-compile-otclient-failed.253692/).
+
+
+We discovered that the newest NumPy (numpy-1.24.3) causes the following error:
+    
+    File ".../project14-COADAPT/rlkit/rlkit/torch/core.py", line 49, in _filter_batch
+        if v.dtype == np.bool:
+    File ".../anaconda3/envs/mujoco_py/lib/python3.8/site-packages/numpy/__init__.py", line 305, in __getattr__
+        raise AttributeError(__former_attrs__[attr])
+    AttributeError: module 'numpy' has no attribute 'bool'.
+    `np.bool` was a deprecated alias for the builtin `bool`. To avoid this error in existing code, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+
+There are two possible solutions to this,
+1. Downgrade NumPy, a solution that worked can be found [here](https://stackoverflow.com/questions/74893742/how-to-solve-attributeerror-module-numpy-has-no-attribute-bool).
+
+2. Change the all `np.bool` to `bool` in the file `core.py` in the folder `rlkit/rlkit/torch/`.
+
+## WSL2
+During the project, WSL2 was used to work on the program files due to being unable to access the native Ubundu operation environment—both regular installations of Ubuntu 20.04 LTS and Ubuntu 22.04.2 LTS versions on WSl2. If you want to run a visual simulation with Ubuntu 22.04.2 LTS version, follow this [guide](https://www.youtube.com/watch?v=7Sym3uL6YWo&t=371s). Visualization on Ubuntu 20.04 LTS can be done by following this [guide](https://github.com/davidbombal/wsl2/blob/main/ubuntu_gui_youtube).
+
+## Other features
+Functions not labeled with `CRAS14` in the program are from the original version of the program; refer to the original [repository](https://github.com/ksluck/Coadaptation).
