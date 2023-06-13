@@ -31,7 +31,7 @@ Initial installation steps are as follows:
 
 4. Within conda environment install PyTorch.
 
-* If you don't have or don't want to use GPU available, install the CPU version of the package.
+* If you don't have or don't want to use GPU, install the CPU version of the package.
 
 5. Install GYM v0.21.0; DO NOT install GYM using PIP INSTALL; The new interface is not compatible with. Instead, install GYM using the following command: `pip3 install gym==0.21.0`
 
