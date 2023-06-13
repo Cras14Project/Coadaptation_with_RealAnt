@@ -16,24 +16,24 @@ We have implemented a pausing method in the program to enhance flexibility and c
 A saving method has been incorporated into the program to facilitate continuity and accommodate changes to the robot's parts. This method enables the program to save its current state, ensuring that progress is not lost when modifications are made. By saving the program's state, users can resume where they left off, even after altering the robot's components. During program initialization, users are prompted to decide whether to load previous data, including reinforcement learning data and other information saved from the last program run. This flexibility allows for fresh runs of the program when required.
 
 ## Modifications and Memo Labels
-Throughout this project, various modifications have been made to the program, each labeled `CRAS14`. These modifications range from improvements to core functionality to adjustments to address specific requirements. It is important to note that some modifications are marked as `memos` with `CRAS14`, indicating that they serve as internal notes for reference and clarification purposes.
+Various modifications have been made to the program throughout this project, each labeled `CRAS14`. These modifications range from improvements to core functionality to adjustments to address specific requirements. It is important to note that some modifications are marked as `memos` with `CRAS14`, indicating that they serve as internal notes for reference and clarification purposes.
 
 ## Installation
 Initial installation steps are as follows:
 
-1. Clone this repository to your local device. Install the required libraries and packades via pip via `pip3 install -r requirements.txt.`
+1. Clone this repository to your local device. Install the required libraries and packages via pip via `pip3 install -r requirements.txt.`
 
 * Note that compared with the original co-adaptation repository, the requirement list has been modified due to compatibility issues with the newer version of certain packages.
 
-2. Install Anaconda, any version should be fine.
+2. Install Anaconda; any version should be fine.
 
-3. Install Mujoco, through [this](https://www.youtube.com/watch?v=Wnb_fiStFb8) instruction, which has a written step-by-step guide in the description if you want to run co-adaptation in a simulation. Install mujoco-py regularly.
+3. Install Mujoco through [this](https://www.youtube.com/watch?v=Wnb_fiStFb8) instruction, which has a written step-by-step guide in the description if you want to run co-adaptation in a simulation. Install mujoco-py regularly.
 
-4. Within conda environment install PyTorch.
+4. Within the conda environment, install PyTorch.
 
 * If you don't have or don't want to use GPU, install the CPU version of the package.
 
-5. Install GYM v0.21.0; DO NOT install GYM using PIP INSTALL; The new interface is not compatible with. Instead, install GYM using the following command: `pip3 install gym==0.21.0`
+5. Install GYM v0.21.0; DO NOT install GYM using PIP INSTALL; The new interface is not compatible with it. Instead, install GYM using the following command: `pip3 install gym==0.21.0`
 
 
 ## Setting up the environment
@@ -55,7 +55,7 @@ or
 
 You can change co-adaptation parameters from the `experiment_configs.py`. 
 
-The program saves and load all evoreplay data to a directory `named evoreplay_saves` that has 
+The program saves and loads all evoreplay data to a directory `named evoreplay_saves` which has 
 * `init_state`
 * `population`
 * `short_save`
@@ -97,7 +97,7 @@ Try the following:
 
 It may take a minute to complete. The original [solution](https://stackoverflow.com/questions/72540359/glibcxx-3-4-30-not-found-for-librosa-in-conda-virtual-environment-after-tryin).
 
-If receive the following error:
+If receiving the following error:
 
     E: Couldn't find any package by glob 'libglew1.13'
 
@@ -115,9 +115,9 @@ We discovered that the newest NumPy (numpy-1.24.3) causes the following error:
     `np.bool` was a deprecated alias for the builtin `bool`. To avoid this error in existing code, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
 
 There are two possible solutions to this,
-1. Downgrade NumPy, a solution that worked can be found [here](https://stackoverflow.com/questions/74893742/how-to-solve-attributeerror-module-numpy-has-no-attribute-bool).
+1. Downgrade NumPy, a solution that worked, can be found [here](https://stackoverflow.com/questions/74893742/how-to-solve-attributeerror-module-numpy-has-no-attribute-bool).
 
-2. Change the all `np.bool` to `bool` in the file `core.py` in the folder `rlkit/rlkit/torch/`.
+2. Change all `np.bool` to `bool` in the file `core.py` in the folder `rlkit/rlkit/torch/`.
 
 ## WSL2
 During the project, WSL2 was used to work on the program files due to being unable to access the native Ubundu operation environment—both regular installations of Ubuntu 20.04 LTS and Ubuntu 22.04.2 LTS versions on WSL2. If you want to run a visual simulation with Ubuntu 22.04.2 LTS version, follow this [guide](https://www.youtube.com/watch?v=7Sym3uL6YWo&t). Visualization on Ubuntu 20.04 LTS can be done by following this [guide](https://github.com/davidbombal/wsl2/blob/main/ubuntu_gui_youtube).
