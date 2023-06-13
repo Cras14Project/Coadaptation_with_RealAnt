@@ -7,7 +7,7 @@ We thank the instructor, Kevin Sebastian Luck, for his guidance and permission t
 The co-adaptation program extensively uses rlkit, a framework developed and maintained by Vitchyr Pong, and the original can be found [here](https://github.com/rail-berkeley/rlkit). We have also made small modifications to rlkit due to Numpy compatibility, which is also in this repository.
 
 ## Co-Adaptation of Morphology and Behaviour
-One of the prominent features of the quadruped robot is the integration of Co-Adaptation of Morphology and Behaviour with Deep Reinforcement Learning. This approach combines the state-of-the-art Soft-Actor-Critic (SAC) algorithm with the Optimization Algorithm Particle Swarm Optimization (PSO) to enable the co-adaptation of the robot's morphology and behavior through deep reinforcement learning.
+One of the prominent features of the quadruped robot is the integration of Co-Adaptation of Morphology and Behaviour with Deep Reinforcement Learning. This approach combines the Soft-Actor-Critic (SAC) algorithm with the Optimization Algorithm Particle Swarm Optimization (PSO) to enable the co-adaptation of the robot's morphology and behavior through deep reinforcement learning.
 
 ## Pausing Method
 We have implemented a pausing method in the program to enhance flexibility and control during adaptation. After each iteration, the program can be paused, allowing the option to terminate the program and save the current state or skip a part of the adaptation process. This feature proves particularly useful when there is a need to train the robot solely for walking, enabling the skipping of certain processes such as design optimization.
