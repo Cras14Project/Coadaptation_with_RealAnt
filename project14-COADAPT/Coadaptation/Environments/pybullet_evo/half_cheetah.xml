@@ -42,10 +42,10 @@
       <joint armature="0" axis="1 0 0" damping="0" limited="false" name="ignorex" pos="0 0 0" stiffness="0" type="slide"/>
       <joint armature="0" axis="0 0 1" damping="0" limited="false" name="ignorez" pos="0 0 0" stiffness="0" type="slide"/>
       <joint armature="0" axis="0 1 0" damping="0" limited="false" name="ignorey" pos="0 0 0" stiffness="0" type="hinge"/>
-      <!-- CRAS14 torso mod />-->
+      <!-- CRAS14: torso mod />-->
       <geom name="torso" size=".25 .25 .04" type="box"/>
       <!--<geom axisangle="0 1 0 .87" name="head" pos=".6 0 .1" size="0.046 .15" type="capsule"/> />-->
-      <!-- CRAS14 right back leg />-->
+      <!-- CRAS14: right back leg />-->
       <body name="bthigh" pos="-.25 -.30 0" euler="0 0 0">
         <joint axis="0 0 1" damping="6" name="bthigh" pos="0 0 0" range="-1.57 1.57" stiffness="240" type="hinge"/>
         <geom axisangle="0 0 1 0" name="bthigh" pos="0 0 0" size="0.046 .145" type="sphere"/>
@@ -58,7 +58,7 @@
           </body>
         </body>
       </body>
-      <!-- CRAS14 front leg />-->
+      <!-- CRAS14: front leg />-->
       <body name="fthigh" pos=".25 .3 0">
         <joint axis="0 0 1" damping="6" name="fthigh" pos="0 0 0" range="-1.57 1.57" stiffness="240" type="hinge"/>
         <geom axisangle="0 0 1 0" name="fthigh" pos="0 0 0" size="0.046 .145" type="sphere"/>
@@ -71,7 +71,7 @@
           </body>
         </body>
       </body>
-      <!-- CRAS14 back leg1 />-->
+      <!-- CRAS14: back leg1 />-->
       <body name="bthigh1" pos="-.25 .30 0">
         <joint axis="0 0 1" damping="6" name="bthigh1" pos="0 0 0" range="-1.57 1.57" stiffness="240" type="hinge"/>
         <geom axisangle="0 0 1 0" name="bthigh1" pos="0 0 0" size="0.046 .145" type="sphere"/>
@@ -84,7 +84,7 @@
           </body>
         </body>
       </body>
-      <!-- CRAS14 front leg1 />-->
+      <!-- CRAS14: front leg1 />-->
       <body name="fthigh1" pos=".25 -.3 0">
         <joint axis="0 0 1" damping="6" name="fthigh1" pos="0 0 0" range="-1.57 1.57" stiffness="240" type="hinge"/>
         <geom axisangle="0 0 1 0" name="fthigh1" pos="0 0 0" size="0.046 .145" type="sphere"/>
