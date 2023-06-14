@@ -46,13 +46,12 @@ class SimpleReplayBuffer(ReplayBuffer):
     def get_snapshot(self):
         saved_state = []
 
-        # CRAS14: These have io that can't be saved using pickle or numpy
+        # CRAS14: These have io that can't be saved using Pickle or Numpy
         # saved_state.append(self._observation_dim)
         # aved_state.append(self._action_dim)
         # saved_state.append(self._max_replay_buffer_size)
         
-        # CRAS14: Due to memory issues, we don't save the observations and next_obs
-        # CRAS14: but if we want to save them, we need to uncomment the following lines
+        # CRAS14: if there are memory issues, observations, and next_obs can be commented in
         saved_state.append(self._observations)
         saved_state.append(self._next_obs)
         saved_state.append(self._actions)
@@ -65,12 +64,12 @@ class SimpleReplayBuffer(ReplayBuffer):
         return saved_state
 
     ##
-    # CRAS14 loads the init parameters from a dictionary
+    # CRAS14: loads the init parameters from a dictionary
     def restore_from_snapshot(self, saved_state):
         
-        # CRAS14: we don't need to restore the observations and next_obs due to memory issues
-        # CRAS14: but if we want to restore them, we need to uncomment the following lines put the saved_state[X] in the right place
-        # CRA14: X is the index of the saved_state list and is in the same order as the saved_state.append() above
+        # CRAS14: we don't need to restore the observations and next_obs if there are memory issues
+        # CRAS14: remember to comment them out if they are not saved
+        # CRAS14: X is the index of the saved_state list and is in the same order as the saved_state.append() above
         self._observations = saved_state[0]
         self._next_obs = saved_state[1]
         self._actions = saved_state[2]
