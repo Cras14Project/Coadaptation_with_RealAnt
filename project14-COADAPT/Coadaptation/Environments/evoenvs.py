@@ -12,10 +12,10 @@ class HalfCheetahEnv(object):
         self._config = config
         self._render = self._config['env']['render']
         self._record_video = self._config['env']['record_video']
-        # CRAS14 Memos: Originally 6 number of modifiable variables, depending on the parts of the legs that will be changing
+        # CRAS14 memos: Originally 6 number of modifiable variables, depending on the parts of the legs that will be changing
         self._current_design = [1.0] * 4
         self._config_numpy = np.array(self._current_design)
-        self.design_params_bounds = [(0.8, 2.0)] * 4 # CRAS14 Memos: limiter for designs
+        self.design_params_bounds = [(0.8, 2.0)] * 4 # CRAS14 memos: limiter for designs
         self._env = HalfCheetahBulletEnv(render=self._render, design=self._current_design)
 
         # first five designs that will be changed and there are "5 robots"
@@ -28,13 +28,13 @@ class HalfCheetahEnv(object):
             [0.85, 1.54, 0.97, 1.38, 1.10, 1.49],
         """
         
-        # CRAS14
+        # CRAS14:
         # The initial simulation parameters for the environment
         # These are the parameters that are optimized
-        # They are just coefficients for the inital values of the modifiable legs
+        # They are just coefficients for the initial values of the modifiable legs
 
-        # CRAS14 Because we only have one idea
-        # parameters depends on the amount of modifiable values
+        # CRAS14: Because we only have one model
+        # parameters depend on the number of modifiable values
         # depending on the parts of the legs that will be changing
         # or it can be the self._current_design
         self.init_sim_params = [
@@ -42,14 +42,14 @@ class HalfCheetahEnv(object):
             [2.0]*4,
             [3.0]*4
         ]
-        # CRAS14 matrix multiplication error caused by the observation and action space
+        # CRAS14: matrix multiplication error caused by the observation and action space
         # mat1 and mat2 shapes cannot be multiplied (1x32 and 26x200)
         # conclusion: initial value 6 comes from the initial is to match the mat1
         self.observation_space = spaces.Box(-np.inf, np.inf, shape=[self._env.observation_space.shape[0] + 16], dtype=np.float32)#env.observation_space
         self.action_space = self._env.action_space
-        # CRAS14 to see the dimensions of self.action_space and self.observation_space
+        # CRAS14: to see the dimensions of self.action_space and self.observation_space
         # print("action space: ",self.action_space)
-        # print("obervation space: ", self.observation_space)
+        # print("observation space: ", self.observation_space)
         self._initial_state = self._env.reset()
 
         if self._record_video:
@@ -64,7 +64,7 @@ class HalfCheetahEnv(object):
 
     # The objective is to create a way for the program to communicate with the REAL environment
 
-    # CRAS14
+    # CRAS14 memos:
     # sends an action to the robot as NDArray (normalized values preferred for RL)
     # return the current state of the robot and the reward for the action taken in a form of NDArray
     # the reward is the distance travelled by the robot
@@ -72,20 +72,20 @@ class HalfCheetahEnv(object):
         info = {}
         state, reward, done, _ = self._env.step(a)
         state = np.append(state, self._config_numpy)
-        # CRAS14 The are confiq_numpy are the only optimized parameters
+        # CRAS14 memos: The are confiq_numpy are the only optimized parameters
         info['orig_action_cost'] = 0.1 * np.mean(np.square(a))
         info['orig_reward'] = reward
 
         if self._record_video:
             self._video_recorder.step(env=self._env, state=state, reward=reward, done=done)
 
-        # CRAS14 to see the dimensions of state and a
+        # CRAS14: to see the dimensions of the state and a
         # print("state: ", state)
         # print("action: ", a)
 
         return state, reward, False, info
 
-    # CRAS14
+    # CRAS14:
     # resets the robot to initial position
     # basically does the same as step() but without the action?
     def reset(self):
@@ -112,7 +112,7 @@ class HalfCheetahEnv(object):
         while value != "y" and value != "n": 
             value = input("Continue? (y/n): ")
         
-        # CRAS14: if the user types "y" the program will continue
+        # CRAS14: if the user types "y", the program will continue
         if value == "y":
             return 1
         elif value == "n":
@@ -127,7 +127,7 @@ class HalfCheetahEnv(object):
             if save_ans == "n":
                 return 0
             print("COADAPT REPLAY")
-            # CRAS14: if the user types "n" the program will stop
+            # CRAS14: if the user types "n", the program will stop
             # save the data from evoreplay
             shorter_list, longer_list = coadapt._replay.get_init_params()
             
@@ -145,7 +145,7 @@ class HalfCheetahEnv(object):
 
             return 0
 
-    # CRAS14: method that saves previous evoreplay data
+    # CRAS14: a method that saves previous evoreplay data
     def save_evoplay_data(self,list, path):
         
         print("Saving evoreplay data, to", path)
@@ -159,7 +159,7 @@ class HalfCheetahEnv(object):
         return
 
 
-    # CRAS14: method that load previous evoplay data
+    # CRAS14: a method that loads previous evoplay data
     def load_evoplay_data(self, coadapt):
         """ Loads previous evoplay data.
 
@@ -198,7 +198,7 @@ class HalfCheetahEnv(object):
 
     ## def save_current_design()
     ## reset the robot position, and legs orientation
-    # CRAS14 Memos: give new parameters to the robot, NOTE the size parameter depends on amount of legs
+    # CRAS14 memos: give new parameters to the robot, NOTE the size parameter depends on the number of legs
     def get_random_design(self):
         optimized_params = np.random.uniform(low=0.8, high=2.0, size=4)
         return optimized_params
