@@ -4,7 +4,7 @@ sac_pso_batch = {
     'name' : 'Experiment 1: PSO Batch',         # Name of the experiment. Can be used just for reference later
     'data_folder' : 'data_exp_sac_pso_batch',   # Name of the folder in which data generated during the experiments are saved
     'nmbr_random_designs' : 0,                  # Number of random designs to run after the initial design TODO: Not used atm
-    'iterations_init' : 3,                      # 300, Number of episodes for all initial designs as provided by the environment class // iterations that ARE initial designs; CRAS14
+    'iterations_init' : 3,                      # 300, Number of episodes for all initial designs as provided by the environment class // iterations that ARE initial designs; CRAS14 memos
     'iterations_random': 100,                   # 100, Number of episodes for all random designs TODO: Not used atm // iterations that are NOT initials design; CRAS14 memos
     'iterations' : 3,                           # 100, Number of episodes to run for all designs after the initial // iterations that are NOT initial designs; CRAS14 memos
     'design_cycles' : 55,                       # 55, Number of design adaptations after the initial designs; CRAS14 for design optimizaiton
