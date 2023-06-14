@@ -33,7 +33,7 @@ def select_design_opt_alg(alg_name):
     else:
         raise ValueError("Design Optimization method not found.")
 
-# CRAS14 Memos: houd return class of theproject environment
+# CRAS14 memos: houd return class of theproject environment
 def select_environment(env_name):
     """ Selects an environment.
 
@@ -91,11 +91,11 @@ class Coadaptation(object):
         self._episode_length = self._config['steps_per_episodes']
         self._reward_scale = 1.0 #self._config['rl_algorithm_config']['algo_params']['reward_scale']
 
-        # CRAS14: replace "evoenvs" environemnt
+        # CRAS14 memos: replace "evoenvs" environemnt
         self._env_class = select_environment(self._config['env']['env_name'])
-        self._env = RobotEnv() #evoenvs.HalfCheetahEnv(config=self._config) ########################################################
+        self._env = RobotEnv() #evoenvs.HalfCheetahEnv(config=self._config)
 
-        # CRAS14 Memos
+        # CRAS14 memos:
         # save these values for later use
         self._replay = EvoReplayLocalGlobalStart(self._env,
             max_replay_buffer_size_species=int(1e6),
@@ -108,7 +108,7 @@ class Coadaptation(object):
         self._rl_alg = self._rl_alg_class(config=self._config, env=self._env , replay=self._replay, networks=self._networks)
 
         self._do_alg_class = select_design_opt_alg(self._config['design_optim_method'])
-        # CRAS14: Memos
+        # CRAS14 memos: config and replay used
         self._do_alg = self._do_alg_class(config=self._config, replay=self._replay, env=self._env)
 
         # if self._config['use_cpu_for_rollout']:
@@ -157,7 +157,7 @@ class Coadaptation(object):
         self._replay.set_mode("species")
         #self.collect_training_experience()
         Coadaptation.collect_training_experience(self)
-        # TODO Change here to train global only after five designs; CRAS14 is 3
+        # TODO Change here to train global only after five designs; CRAS14 set it to 3
         train_pop = self._design_counter > 3
         if self._episode_counter >= self._config['initial_episodes']:
             self._rl_alg.single_train_step(train_ind=True, train_pop=train_pop)
@@ -312,8 +312,8 @@ class Coadaptation(object):
                 ), 'w') as fd:
             cwriter = csv.writer(fd)
             cwriter.writerow(['Design Type:', self._data_design_type])
-            cwriter.writerow(current_design)        # CRAS14 write the design of the model
-            cwriter.writerow(self._data_rewards)    # CRAS14 write the the data_rewards to the file
+            cwriter.writerow(current_design)        # CRAS14 memos: write the design of the model
+            cwriter.writerow(self._data_rewards)    # CRAS14 memos: write the the data_rewards to the file
 
     def run(self):
         """ Runs the Fast Evolution through Actor-Critic RL algorithm.
@@ -374,7 +374,7 @@ class Coadaptation(object):
         optimized_params = self._env.get_random_design()
         q_network = self._rl_alg_class.get_q_network(self._networks['population'])
         policy_network = self._rl_alg_class.get_policy_network(self._networks['population'])
-        # CRAS14:  this might need to be saved
+        # CRAS14 memos: this might need to be saved
         optimized_params = self._do_alg.optimize_design(design=optimized_params, q_network=q_network, policy_network=policy_network)
         optimized_params = list(optimized_params)
 
@@ -393,12 +393,12 @@ class Coadaptation(object):
                 return
             
 
-            # CRAS14: Walking iteration
+            # CRAS14 memos: Walking iteration
             # Reinforcement Learning
             for _ in range(iterations):
                 self.single_iteration()
             
-            # CRAS14: Implement a method to give an option to skip the optimization process
+            # CRAS14: Implement a method to give the option to skip the optimization process
             optimization_ans = None
             while optimization_ans != "n" and optimization_ans != "y":
                 optimization_ans = input("Continue to new robot design optimization? (y/n): ")
@@ -440,7 +440,7 @@ class Coadaptation(object):
                 print("Error: Could not load network")
                 return -1
 
-        # CRAS14: Ask whether to use previous evoplay data
+        # CRAS14: Ask whether to use previous evoreplay data
         prev_evoplay = None
         while prev_evoplay != "y" and prev_evoplay != "n":
             prev_evoplay = input("Use previous evoplay data? (y/n): ")
