@@ -203,8 +203,8 @@ class HalfCheetahBulletEnv(WalkerBaseBulletEnv):
   def __init__(self, render=False, design = None):
     self.robot = HalfCheetah(design)
     WalkerBaseBulletEnv.__init__(self, self.robot, render)
-    ## CRAS14: shape --> the amount of state/observable parameters of the robot
-    # CRAS14: even when there are only 4 parts that changes, we also have to consider the parts that moves
+    ## CRAS14 memos: shape --> the amount of state/observable parameters of the robot
+    # CRAS14 memos: even when there are only 4 parts that change, we also have to consider the parts that move
     self.observation_space = spaces.Box(-np.inf, np.inf, shape=[17], dtype=np.float32)
 
   def _isDone(self):
