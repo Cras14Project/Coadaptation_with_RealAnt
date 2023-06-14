@@ -93,8 +93,8 @@ class EvoReplayLocalGlobalStart(ReplayBuffer):
         self._species_buffer = EnvReplayBuffer(env = self._env, max_replay_buffer_size=self._max_replay_buffer_size_species)
         self._ep_counter = 0
     
-    # CRAS14
-    # Creates a dictionary of the init parameters and returns it
+    # CRAS14:
+    # creates a dictionary of the init parameters and returns it
     def get_init_params(self):
         short_list = []
         large_list = []
@@ -116,7 +116,7 @@ class EvoReplayLocalGlobalStart(ReplayBuffer):
     
         return short_list, large_list
     
-    # CRAS14
+    # CRAS14:
     # Sets the init parameters to the values in the dictionary
     def set_init_params(self, short_list, large_list):
         #self._species_buffer = save_dict['species_buffer']
