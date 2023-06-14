@@ -50,7 +50,8 @@ class WalkerBase(MJCFBasedRobot):
   def apply_action(self, a):
     assert (np.isfinite(a).all())
     # print("size of the list: ",len(self.ordered_joints))
-    ## CRAS14: value a is a list of action to take(?)
+      
+    # CRAS14 memos: value a is a list of actions
     # print("what is a: ",a)
     for n, j in enumerate(self.ordered_joints):
       # print("n value: ", n)
@@ -119,7 +120,8 @@ class HalfCheetah(WalkerBase):
     atexit.register(cleanup_func_for_tmp, self._adapted_xml_filepath)
     self.adapt_xml(self._adapted_xml_filepath, design)
     #WalkerBase.__init__(self, self._adapted_xml_filepath, "torso", action_dim=6, obs_dim=26, power=0.90)
-    # CRAS14:  the action_dim "6" needs to be changed to the adequate leg values
+    # CRAS14 memos: 
+    # the action_dim "6" needs to be changed to the adequate leg values
     # j.set_motor_torque(self.power * j.power_coef * float(np.clip(a[n], -1, +1)))
     # IndexError: index 9 is out of bounds for axis 0 with size 9
     # Should not depend on the legs params
@@ -295,7 +297,7 @@ class HalfCheetah(WalkerBase):
     self.jdict["fshin"].power_coef  = 60.0
     self.jdict["ffoot"].power_coef  = 60.0
 
-    # CRAS14: new legs
+    # CRAS14: for new legs
     self.jdict["bthigh1"].power_coef = 60.0
     self.jdict["bshin1"].power_coef  = 60.0
     self.jdict["bfoot1"].power_coef  = 60.0
