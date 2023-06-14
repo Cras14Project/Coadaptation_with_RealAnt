@@ -13,12 +13,12 @@ class PSO_simulation(Design_Optimization):
 
         # TODO Make this independent of rl_algo config
         # self._episode_length = self._config['rl_algorithm_config']['algo_params']['num_steps_per_epoch']  # old one
-        self._episode_length = self._config['steps_per_episodes']   # replaced BY CRAS14, because the code is changed so that it is not 'num_steps_per_epoch' dependent anymore
+        self._episode_length = self._config['steps_per_episodes']   # replaced by CRAS14, because the code is changed so that it is not 'num_steps_per_epoch' dependent anymore
         self._reward_scale = self._config['rl_algorithm_config']['algo_params']['reward_scale']
 
 
     def optimize_design(self, design, q_network, policy_network):
-        # CRAS14, note
+        # CRAS14 memos
         # Important: We reset the design of the environment. Previous design
         #   will be lost
 
@@ -53,7 +53,7 @@ class PSO_simulation(Design_Optimization):
         upper_bounds = np.array(upper_bounds)
         bounds = (lower_bounds, upper_bounds)
         options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
-        ## CRAS14
+        ## CRAS14 to print values
         # print("DESIGN DIMENSION", design)
         optimizer = ps.single.GlobalBestPSO(n_particles=35, dimensions=len(design), bounds=bounds, options=options)
 
