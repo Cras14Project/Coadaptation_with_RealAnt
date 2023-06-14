@@ -5,8 +5,8 @@ sac_pso_batch = {
     'data_folder' : 'data_exp_sac_pso_batch',   # Name of the folder in which data generated during the experiments are saved
     'nmbr_random_designs' : 0,                  # Number of random designs to run after the initial design TODO: Not used atm
     'iterations_init' : 3,                      # 300, Number of episodes for all initial designs as provided by the environment class // iterations that ARE initial designs; CRAS14
-    'iterations_random': 100,                   # 100, Number of episodes for all random designs TODO: Not used atm // iterations that are NOT initials design; CRAS14
-    'iterations' : 3,                           # 100, Number of episodes to run for all designs after the initial // iterations that are NOT initial designs; CRAS14
+    'iterations_random': 100,                   # 100, Number of episodes for all random designs TODO: Not used atm // iterations that are NOT initials design; CRAS14 memos
+    'iterations' : 3,                           # 100, Number of episodes to run for all designs after the initial // iterations that are NOT initial designs; CRAS14 memos
     'design_cycles' : 55,                       # 55, Number of design adaptations after the initial designs; CRAS14 for design optimizaiton
     'state_batch_size' : 32,                    # Size of the batch used during the design optimization process to estimate fitness of design
     'initial_episodes' : 3,                     # Number of initial episodes for each design before we start the training of the individual networks. Useful if steps per episode is low and we want to fill the replay.
