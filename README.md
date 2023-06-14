@@ -8,11 +8,11 @@ This repository contains the sourcecode for our AEE project: "Creating a Robotic
 
 `ant11_cmd_dxl_mod` - A control program for the RealAnt's OpenCM9.04 board, modified from the original RealAnt project to also return speed and load of the servos. 
 
-`project14-COADAPT` - The modified co-adaptation program, includes new `robot_environment` package for controlling the RealAnt robot
+`project14-COADAPT` - The modified co-adaptation program, includes new `realant_environment` package for controlling the RealAnt robot
 
 `ros` - Files for ROS Melodic workspace to read data from the Optitrack setup
 
-More information of the platform's components including instructions for installion are found in their respective folders. Instructions to run the Co-adaptation program with RealAnt is found in the `robot_environment`.
+More information of the platform's components including instructions for installion are found in their respective folders. Instructions to run the Co-adaptation program with RealAnt is found in the `realant_environment`.
 
 
 ## Links
