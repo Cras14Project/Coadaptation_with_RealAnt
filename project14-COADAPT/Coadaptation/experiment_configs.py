@@ -59,7 +59,7 @@ sac_pso_batch = {
         batch_size=256,                     # Batch size
     ),
     'env' : dict(                           # Parameters and which environment to use
-        env_name='HalfCheetah',             # Name of environment
+        env_name='RealAnt',             # Name of environment
         render=False,                       # Use True if you want to visualize/render the environment
         record_video=False,                  # Use True if you want to record videos
     ),

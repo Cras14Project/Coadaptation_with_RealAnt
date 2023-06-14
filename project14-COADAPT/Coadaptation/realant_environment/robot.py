@@ -11,7 +11,7 @@ stop = None
 
 def read_measurements(ser, deque):
 
-    """ reads the robots measurements through serial connection and converts to int array and adds them to a shared deque """
+    """ reads the robot's measurements through serial connection, converts them to int array and adds them to a shared deque """
 
     valcnt = 0
     global stop
@@ -81,8 +81,6 @@ class Robot:
     def calc_state(self):
 
         """ combines measurements from the robots joints and the optitrack as a state and calculates a reward"""
-
-        #TODO: scale ant observations smaller
         
         try:
             ant_state_array = self.deque[-1] #get all 24 servo values
@@ -111,13 +109,13 @@ class Robot:
     def reward(self):
 
 
-        # speed reward
+        # Speed reward
         x_speed = self.external_state_array[7] 
 
-        # try to lift robot from ground
+        # Try to lift robot from ground
         y_height = self.external_state_array[1] # y component of optitrack pose 
 
-        # reward based on servo positions, the further from the limit, the higher the reward  //  probably useless with collision avoiding servo limits
+        # Reward based on servo positions, the further from the limit, the higher the reward  //  probably useless with collision avoiding servo limits
 
         servo_pos_distance_to_limit_sum = 0
         for i in range(len(self.jointLimits)):
@@ -130,7 +128,7 @@ class Robot:
             servo_pos_distance_to_limit_sum += (distance_to_limit / 512)**2
         servo_pos_distance_to_limit_sum / 8
 
-        # set the scale accordingly
+        # Set the scale accordingly
 
         k1 = 1        
         k2 = 1
@@ -141,27 +139,27 @@ class Robot:
 
     def apply_action(self, action):
 
-        """ Sets all joints in the correct range [min max] and sends a command to the pcb"""
+        """ translates algorihtms action to correct range and sends a split command to the pcb"""
         
         assert len(action) == 8
 
         servo_command_strings = ['']*8
         current_positions = self._get_servo_positions()
         
-        # fills a list with commands in string
+        # Fills a list with commands in string
 
         for i in range(8):
             reference_position = self._alg_value_to_servo_reference_pos(action[i], current_positions[i], self.jointLimits[i])
             servo_command_strings[i] = f"s{i+1} {reference_position:.0f}"
         
-        cmd_string_horizontal = " ".join(servo_command_strings[1::2])+"\n"   #splitting command to vertical and horizontal joints
+        cmd_string_horizontal = " ".join(servo_command_strings[1::2])+"\n"   # Splitting command to vertical and horizontal joints
         cmd_string_vertical = " ".join(servo_command_strings[::2])+"\n" 
 
         #print(bytes(cmd_string_horizontal, 'utf-8'))
         #print(bytes(cmd_string_vertical, 'utf-8'))
        
-        self.ser.write(bytes(cmd_string_horizontal, 'utf-8'))  #send the commands seperately to avoid command overload (servo leds blink red and torque is lost for few seconds)
-        time.sleep(0.05) # tune this 
+        self.ser.write(bytes(cmd_string_horizontal, 'utf-8'))  # Send the commands seperately to avoid command overload (servo leds blink red and torque is lost for few seconds)
+        time.sleep(0.05) # Tune this 
         self.ser.write(bytes(cmd_string_vertical, 'utf-8'))
 
     def _get_servo_positions(self):
@@ -193,21 +191,21 @@ class Robot:
 
     def reset(self):
         
-        """ sets servos to middle - 512 """
+        """ sets all servos to middle (512) """
         
         self.ser.write(b"reset\n")
         time.sleep(1.0)
 
     def attach_servos(self):
 
-        """enables torque"""
+        """ enables torque"""
 
         self.ser.write(b"attach_servos\n") 
         time.sleep(1.0)
 
     def detach_servos(self):
         
-        """disables torque"""
+        """ disables torque"""
 
         self.ser.write(b"detach_servos\n") 
         time.sleep(1.0)
@@ -224,7 +222,7 @@ class Robot:
 
     def open_serial_connection(self):
 
-        """ opens serial port,  to find port with linux: write "ls /dev/serial/by-id -l" in terminal, The port should match usb-ROBOTIS_ROBOTIS_ComPort-if00  """
+        """ Opens serial port,  to find port with linux: write "ls /dev/serial/by-id -l" in terminal, The port should match usb-ROBOTIS_ROBOTIS_ComPort-if00  """
 
         self.ser = serial.Serial('/dev/ttyACM1', 115200, timeout=1)
 

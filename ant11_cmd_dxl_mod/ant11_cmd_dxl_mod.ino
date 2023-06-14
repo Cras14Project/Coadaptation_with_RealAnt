@@ -1,5 +1,6 @@
 // Licensed under MIT licence, see LICENSE for details.
 // Copyright Ote Robotics Ltd. 2020
+// Modified by CRAS14
 
 // log: 
 //  20180114 - the ant has risen! all the servos turning at once consume about 4A @ 5V (!)
@@ -25,7 +26,6 @@
 #define ADDR_AX_PRESENT_SPEED           38 // added these
 #define ADDR_AX_PRESENT_LOAD            40
 //
-#define ADDR_AX_PRESENT_TEMPERATURE     43 // delete
 
 // Protocol version
 #define PROTOCOL_VERSION                1.0                 // See which protocol version is used in the Dynamixel
@@ -200,7 +200,7 @@ void setup() {
           Serial.println("- Succeeded to set torque limit");
         }
     }
-
+      // ADDED SET SPEED
     for (int i = 1; i <= 8; i++) {
 
         dxl_comm_result = packetHandler->write2ByteTxRx(portHandler, i, ADDR_AX_MOVING_SPEED, 0, &dxl_error);
